@@ -2,5 +2,12 @@
 
 require 'rack'
 require_relative 'app/shortener'
+require_relative 'app/middleware/logger'
 
-run URLShortener::ShortenerApp.new
+app = Rack::Builder.new do
+  use URLShortener::LoggerMiddleware
+
+  run URLShortener::ShortenerApp.new
+end
+
+run app
