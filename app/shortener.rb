@@ -7,6 +7,10 @@ require_relative 'store'
 
 module URLShortener
   class ShortenerApp
+    LAYOUT_TEMPLATE = ERB.new(File.read("#{__dir__}/views/layout.erb"))
+    HOME_TEMPLATE = ERB.new(File.read("#{__dir__}/views/home.erb"))
+    INFO_TEMPLATE = ERB.new(File.read("#{__dir__}/views/info.erb"))
+
     def initialize(store: Store.new)
       @store = store
     end
@@ -76,18 +80,15 @@ module URLShortener
       [302, { 'location' => record['url'], 'cache-control' => 'no-cache, no-store' }, []]
     end
 
-    def render(view_name, locals = {})
-      layout = File.read("#{__dir__}/views/layout.erb")
-      view_code = File.read("#{__dir__}/views/#{view_name}.erb")
-
-      view_content = ERB.new(view_code).result_with_hash(locals)
-      final_body = ERB.new(layout).result_with_hash(content: view_content)
+    def render(template, locals = {})
+      view_content = template.result_with_hash(locals)
+      final_body = LAYOUT_TEMPLATE.result_with_hash(content: view_content)
 
       ok_html(final_body)
     end
 
     def render_home
-      render('home', links: @store.all)
+      render(HOME_TEMPLATE, links: @store.all)
     end
 
     def render_info(slug)
@@ -95,7 +96,7 @@ module URLShortener
 
       return not_found unless record
 
-      render('info', slug: slug, data: record)
+      render(INFO_TEMPLATE, slug: slug, data: record)
     end
 
     def ok_html(body)
