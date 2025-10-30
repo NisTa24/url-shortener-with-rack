@@ -1,0 +1,29 @@
+<h2>Shorten a URL</h2>
+
+<form action="/shorten" method="POST">
+  <label for="url">Enter a URL to shorten:</label><br>
+  <input type="url" id="url" name="url" placeholder="https://example.com/a-very-long-link" required>
+  <button type="submit">Shorten URL</button>
+</form>
+
+<% if links.any? %>
+  <h2>Created Links</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Short URL</th>
+        <th>Original URL</th>
+        <th>Clicks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% links.each do |slug, data| %>
+        <tr>
+          <td><a href="/<%= slug %>/info"><code>/<%= slug %></code></a></td>
+          <td><a href="<%= Rack::Utils.escape_html(data['url']) %>" title="<%= Rack::Utils.escape_html(data['url']) %>"><%= Rack::Utils.escape_html(data['url'][0..40]) %>...</a></td>
+          <td><%= data['clicks'] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

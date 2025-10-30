@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Rack URL Shortener</title>
+  <style>
+    :root { --bg: #ffffff; --fg: #111827; --accent: #4f46e5; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#0f172a; --fg:#f1f5f9; --accent:#818cf8; }
+    }
+    body { background:var(--bg); color:var(--fg); font-family:monospace; max-width:680px; margin:3rem auto; }
+    input[type=url] { width:100%; padding:0.7rem; border:1px solid #94a3b8; border-radius:6px; }
+    button { padding:0.6rem 1.2rem; margin-top:0.6rem; border:none; border-radius:6px; background:var(--accent); color:#fff; cursor:pointer; }
+    table { width:100%; margin-top:1.8rem; border-collapse:collapse; }
+    th,td { border-bottom:1px solid #e2e8f0; padding:0.5rem; text-align:left; }
+    a { color:var(--accent); text-decoration:none; }
+    code { background:#f1f5f9; color: #334155; padding:0.25rem; border-radius:4px; }
+  </style>
+</head>
+<body>
+  <h1>🔗 Rack URL Shortener</h1>
+  <%= content %>
+</body>
+</html>
