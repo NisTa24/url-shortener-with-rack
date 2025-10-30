@@ -5,6 +5,11 @@ require_relative 'app/shortener'
 require_relative 'app/middleware/logger'
 
 app = Rack::Builder.new do
+  use Rack::Deflater, if: lambda { |_, _, headers, body|
+    # only compress HTML files
+    headers['Content-Type']&.include?('text/html') && body.respond_to?(:each)
+  }
+
   use URLShortener::LoggerMiddleware
 
   run URLShortener::ShortenerApp.new
