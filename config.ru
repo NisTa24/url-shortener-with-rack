@@ -10,6 +10,9 @@ app = Rack::Builder.new do
     headers['Content-Type']&.include?('text/html') && body.respond_to?(:each)
   }
 
+  use Rack::ConditionalGet
+  use Rack::ETag
+
   use URLShortener::LoggerMiddleware
 
   run URLShortener::ShortenerApp.new
