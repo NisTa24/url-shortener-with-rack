@@ -79,6 +79,7 @@ module URLShortener
       @db.execute 'CREATE INDEX IF NOT EXISTS idx_urls_created_at ON urls(created_at);'
     end
 
+    # Note: I couldn't directly bind it when used in SQL statements. Therefore, I created this helper method to sanitize the slug.
     def sanitize_slug(slug)
       clean_slug = slug.to_s.strip.sub(/\A\//, '').split('?').first
 
