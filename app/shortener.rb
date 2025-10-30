@@ -2,6 +2,7 @@
 
 require 'rack'
 require 'erb'
+require 'uri'
 require_relative 'store'
 
 module URLShortener
@@ -42,7 +43,7 @@ module URLShortener
     def create_short_url(request)
       original_url = request.params['url']&.strip
 
-      return bad_request('Invalid URL') if original_url.nil? || original_url.strip.empty?
+      return bad_request('Invalid URL') unless valid_url?(original_url)
 
       original_url.strip!
 
@@ -52,7 +53,13 @@ module URLShortener
     end
 
     def valid_url?(url)
-      url&.match?(URL_REGEX)
+      return false if url.nil? || url.empty?
+
+      uri = URI.parse(url)
+
+      (uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)) && !uri.host.nil?
+    rescue URI::InvalidURIError
+      false
     end
 
     def redirect(location)
