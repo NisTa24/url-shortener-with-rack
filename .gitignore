@@ -1,0 +1,6 @@
+urls.db
+*.sqlite3
+*.db
+/.bundle
+/vendor
+/.ruby-version

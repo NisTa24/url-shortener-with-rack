@@ -1,6 +1,6 @@
 <h2>URL shortened successfully!</h2>
 
-<p>Your short link is: <a href="/<%= slug %>"><strong>http://localhost:9292/<%= slug %></strong></a></p>
+<p>Your short link is: <a href="/<%= slug %>" target="_blank"><strong>http://localhost:9292/<%= slug %></strong></a></p>
 <p>It redirects to: <a href="<%= Rack::Utils.escape_html(data['url']) %>"><%= Rack::Utils.escape_html(data['url']) %></a></p>
 <p>This link has been visited <strong><%= data['clicks'] %></strong> times.</p>
 
